@@ -1,0 +1,49 @@
+# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-maven
+
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: Java CI with Maven
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+on:
+  push:
+    branches: [ "main", "dev-1.7.2", "dev-1.8.0" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: maven
+    - name: Get information from pom.xml
+      run: |
+         echo "FW_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
+         echo "FW_ARTIFACT_ID=$(mvn help:evaluate -Dexpression=project.artifactId -q -DforceStdout)" >> $GITHUB_ENV
+    - name: Output Fortress Wars Version
+      run: echo FortressWars-${{ env.FW_VERSION }}.${{ github.run_number }}
+    - name: Output Branch
+      run: echo ${{ github.ref_name }}
+    - name: Build with Maven
+      run: mvn -B package --file pom.xml
+    - name: Create Build Dir & copy jar
+      run: mkdir builds && cp target/${{ env.FW_ARTIFACT_ID }}-${{ env.FW_VERSION }}.jar builds/${{ env.FW_ARTIFACT_ID }}-${{ env.FW_VERSION }}.${{ github.run_number }}.jar
+    - name: Upload Plugin Jar
+      uses: actions/upload-artifact@v3
+      with:
+         name: ${{ env.FW_ARTIFACT_ID }}-${{ env.FW_VERSION }}.${{ github.run_number }}
+         path: builds/${{ env.FW_ARTIFACT_ID }}-${{ env.FW_VERSION }}.${{ github.run_number }}.jar
