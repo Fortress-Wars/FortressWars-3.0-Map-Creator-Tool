@@ -1,0 +1,14 @@
+name: FortressWars-MaapCreatorTool
+version: '${project.version}'
+author: Peter Cesmegi
+main: linkfd.fwmct.Main
+description: FortressWar 3.0 (Map Creator Tool)
+api-version: 1.19
+
+commands:
+  map:
+    description: Manage Fortress Wars maps.
+  sponge:
+    description: command to create sponge launchers
+  gate:
+    description: command for opening gates
