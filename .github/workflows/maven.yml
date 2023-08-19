@@ -14,10 +14,6 @@ on:
   pull_request:
     branches: [ "main" ]
 
-on:
-  push:
-    branches: [ "main", "dev-1.7.2", "dev-1.8.0" ]
-
 jobs:
   build:
     runs-on: ubuntu-latest
