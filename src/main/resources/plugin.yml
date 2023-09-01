@@ -1,4 +1,4 @@
-name: FortressWars-MaapCreatorTool
+name: FortressWars-MapCreatorTool
 version: '${project.version}'
 author: Peter Cesmegi
 main: linkfd.fwmct.Main

@@ -12,9 +12,11 @@ public class Main extends JavaPlugin {
             getLogger().warning("      FortressWars 3.0 is already installed!      ");
             getLogger().warning("FortressWars 3.0 (Map Creator Tool) NOT enabled!");
             getLogger().warning("================================================");
+            Bukkit.getPluginManager().disablePlugin(this);
             return;
         }
 
+        this.saveDefaultConfig();
         new CommandManager(this);
 
         getLogger().info("FortressWars 3.0 (Map Creator Tool) Enabled");
