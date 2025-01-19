@@ -55,7 +55,7 @@ jobs:
     - name: Output Branch
       run: echo ${{ github.ref_name }}
     - name: Build with Maven
-      run: mvn -B package --file pom.xml
+      run: mvn -B package -P prod --file pom.xml
     - name: Create Build Dir & copy jar
       run: mkdir builds && cp target/${{ env.FW_ARTIFACT_ID }}-${{ env.FW_VERSION }}.jar builds/${{ env.FW_ARTIFACT_ID }}-${{ env.FW_VERSION }}.${{ github.run_number }}.jar
     - name: Upload Plugin Jar
